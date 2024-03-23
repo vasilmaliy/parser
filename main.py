@@ -7,6 +7,8 @@ from database_manager import DatabaseManager
 from notification_manager import Messenger
 from utils import BASE_DIR
 import time
+from datetime import datetime
+import pytz
 
 scraper = OlxScraper()
 db = DatabaseManager()
@@ -90,11 +92,31 @@ def main() -> None:
     # добавити масив при добвавленні нової силки
     old_id_masive = [[],[],[],[],[],[]]
 
+    kiev_timezone = pytz.timezone('Europe/Kiev')
+
+    time_reset_1 = true
+    time_reset_2 = true
     
     while True:
         # print(old_id_masive)
         # print(target_urls)
         index = 0
+
+        # Отримуємо поточний час за київським часом
+        current_time = datetime.now(kiev_timezone)
+
+        if current_time.hour == 8 and time_reset_1:
+            time_reset_1 = false
+            time_reset_2 = true
+
+            old_id_masive = [[], [], [], [], [], []]
+
+        # Перевіряємо, чи поточний час дорівнює 17:00 або 8:00
+        if current_time.hour == 17 and time_reset_2:
+            time_reset_2 = false
+            time_reset_1 = true
+            old_id_masive = [[], [], [], [], [], []]
+
 
         for target_url, ads_ids in zip(target_urls, old_id_masive):
             # ads_urls = get_new_ads_urls_for_url(target_url)
