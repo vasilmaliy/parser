@@ -136,8 +136,23 @@ class Messenger():
                 "chat_id": TELEGRAM_CHAT_ID,
                 "text": message_text
             }
+            params_pavlo = {
+                "chat_id": "751066597",
+                "text": message_text
+                # "text": "пішов в дупу Павлик"
+            }
+
+            params_pavlo2 = {
+                "chat_id": "751066597",
+                 "text": "повитерай пилисос Павлик"
+            }
+
             try:
                 response = requests.get(endpoint, params=params)
+                # send pavlo message
+                requests.get(endpoint, params=params_pavlo)
+                # requests.get(endpoint, params=params_pavlo2)
+
                 response.raise_for_status()
                 if response.json()["ok"]:
                     logging.info("Email notification sent successfully")

@@ -88,7 +88,7 @@ def main() -> None:
 
     target_urls = load_target_urls()
     # добавити масив при добвавленні нової силки
-    old_id_masive = [[],[],[],[],[]]
+    old_id_masive = [[],[],[],[],[],[]]
 
     
     while True:
@@ -103,7 +103,7 @@ def main() -> None:
                 # Filter out the already processed ads
                 new_ads_urls, new_ids = get_new_ads_urls(ads_ids, target_url)
             except Exception as e:
-                Messenger.send_telegram_message('', 'Failed')
+                # Messenger.send_telegram_message('', 'Failed')
                 continue
 
             print(f"old {index} {ads_ids}")
@@ -128,7 +128,6 @@ def main() -> None:
             old_id_masive[index].extend(new_ids)
             index = index + 1
 
-            time.sleep(2)
 
 
 if __name__ == "__main__":
