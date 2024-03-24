@@ -94,8 +94,8 @@ def main() -> None:
 
     kiev_timezone = pytz.timezone('Europe/Kiev')
 
-    time_reset_1 = true
-    time_reset_2 = true
+    time_reset_1 = True
+    time_reset_2 = True
     
     while True:
         # print(old_id_masive)
@@ -106,15 +106,15 @@ def main() -> None:
         current_time = datetime.now(kiev_timezone)
 
         if current_time.hour == 8 and time_reset_1:
-            time_reset_1 = false
-            time_reset_2 = true
+            time_reset_1 = False
+            time_reset_2 = True
 
             old_id_masive = [[], [], [], [], [], []]
 
         # Перевіряємо, чи поточний час дорівнює 17:00 або 8:00
         if current_time.hour == 17 and time_reset_2:
-            time_reset_2 = false
-            time_reset_1 = true
+            time_reset_2 = False
+            time_reset_1 = True
             old_id_masive = [[], [], [], [], [], []]
 
 

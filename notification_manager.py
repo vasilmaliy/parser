@@ -3,17 +3,17 @@ import ssl
 import smtplib
 import requests
 import logging
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from utils import normalize_text, extract_search_term
 import logging_config
-
-load_dotenv()
+#
+# load_dotenv()
 
 EMAIL_SENDER = os.getenv("EMAIL_SENDER")
 EMAIL_APP_PASSWORD = os.getenv("EMAIL_APP_PASSWORD")
 EMAIL_RECEIVER = os.getenv("EMAIL_RECEIVER")
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_BOT_TOKEN="6166835545:AAGaQWOXZrZB8LFhfC69vQ4odjfdiwb2r28"
+TELEGRAM_CHAT_ID="643930225"
 
 
 class Messenger():
