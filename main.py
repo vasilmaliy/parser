@@ -117,6 +117,8 @@ def main() -> None:
             time_reset_1 = True
             old_id_masive = [[], [], [], [], [], []]
 
+        if current_time.hour >= 2 and  current_time.hour <= 7 :
+            continue
 
         for target_url, ads_ids in zip(target_urls, old_id_masive):
             # ads_urls = get_new_ads_urls_for_url(target_url)
