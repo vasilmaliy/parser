@@ -26,7 +26,7 @@ def load_target_urls() -> list:
     """
     file_path = os.path.join(BASE_DIR, "target_urls.txt")
     user_message = f"The file 'target_urls.txt' has been created. Add " \
-        + f"in it at least one URL to monitor for new ads. Add 1 URL per line."
+                   + f"in it at least one URL to monitor for new ads. Add 1 URL per line."
     try:
         with open(file_path) as f:
             target_urls = [line.strip() for line in f]
@@ -90,13 +90,13 @@ def main() -> None:
 
     target_urls = load_target_urls()
     # добавити масив при добвавленні нової силки
-    old_id_masive = [[],[],[],[],[],[]]
+    old_id_masive = [[], [], [], [], [], []]
 
     kiev_timezone = pytz.timezone('Europe/Kiev')
 
     time_reset_1 = True
     time_reset_2 = True
-    
+
     while True:
         # print(old_id_masive)
         # print(target_urls)
@@ -117,7 +117,7 @@ def main() -> None:
             time_reset_1 = True
             old_id_masive = [[], [], [], [], [], []]
 
-        if current_time.hour >= 2 and  current_time.hour <= 7 :
+        if current_time.hour >= 2 and current_time.hour <= 7:
             continue
 
         for target_url, ads_ids in zip(target_urls, old_id_masive):
@@ -139,19 +139,17 @@ def main() -> None:
             #     new_ads = pool.map(scraper.get_ad_data, new_ads_urls)
             # new_ads = list(filter(None, new_ads))
 
-
             if new_ads_urls:
-                 for ad in new_ads_urls:
-                     message_subject, message_body = Messenger.generate_email_content(
-                         target_url, [ad])
-                #     Messenger.send_email_message(message_subject, message_body)
-                     Messenger.send_telegram_message('', message_body)
+                for ad in new_ads_urls:
+                    message_subject, message_body = Messenger.generate_email_content(
+                        target_url, [ad])
+                    #     Messenger.send_email_message(message_subject, message_body)
+                    Messenger.send_telegram_message('', message_body)
 
             # Add the processed ads to database
 
             old_id_masive[index].extend(new_ids)
             index = index + 1
-
 
 
 if __name__ == "__main__":

@@ -73,11 +73,15 @@ class OlxScraper:
                 current_time_kiev = datetime.now(pytz.timezone('Europe/Kiev')).time()
 
                 # Порівнюємо часи
-                time_difference = datetime.combine(datetime.min, event_time) - datetime.combine(datetime.min, current_time_kiev)
+
+                time_difference = (current_time_kiev.minute + current_time_kiev.hour * 60 ) - (event_time.minute + event_time.hour * 60 + 60)
                 # print(event_time)
-                if abs(time_difference) <= timedelta(minutes=30):
+                if time_difference <= 30:
                     print(event_time)
                     ads_list.append(ad)
+
+                # print(current_time_kiev )
+                # print(time_difference)
 
         return ads_list
 
