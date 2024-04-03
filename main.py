@@ -96,6 +96,7 @@ def main() -> None:
 
     time_reset_1 = True
     time_reset_2 = True
+    time_reset_3 = True
 
     while True:
         # print(old_id_masive)
@@ -115,7 +116,12 @@ def main() -> None:
         if current_time.hour == 17 and time_reset_2:
             time_reset_2 = False
             time_reset_1 = True
+            time_reset_3 = True
             old_id_masive = [[], [], [], [], [], []]
+
+        if current_time.hour == 0 and time_reset_3:
+            time_reset_3 = False
+            time.sleep(180)
 
         if current_time.hour >= 2 and current_time.hour <= 7:
             continue
