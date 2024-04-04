@@ -78,11 +78,11 @@ class OlxScraper:
                 # print(event_time)
                 if time_difference <= 30:
                     print(event_time)
+                    # print('heloo')
                     ads_list.append(ad)
 
                 # print(current_time_kiev )
                 # print(time_difference)
-
         return ads_list
 
     def get_last_page(self, parsed_content: BeautifulSoup) -> int:
@@ -134,7 +134,8 @@ class OlxScraper:
             if ads is None:
                 return ads_links
             for ad in ads:
-                link = ad.find("a", class_="css-rc5s2u")
+                # міняти клас блллля хтось поміняв просто клас
+                link = ad.find("a", class_="css-q0eq4")
 
                 if link is not None and link.has_attr("href"):
                     link_href = link["href"]
@@ -150,6 +151,8 @@ class OlxScraper:
             if self.last_page is None or self.current_page >= self.last_page:
                 break
             self.current_page += 1
+        #
+        print(ads_links)
         return ads_links, ads_id
 
     def is_relevant_url(self, url: str) -> bool:

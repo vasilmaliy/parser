@@ -121,17 +121,19 @@ def main() -> None:
 
         if current_time.hour == 0 and time_reset_3:
             time_reset_3 = False
-            time.sleep(180)
+            time.sleep(1800)
 
         if current_time.hour >= 2 and current_time.hour <= 7:
             continue
 
         for target_url, ads_ids in zip(target_urls, old_id_masive):
             # ads_urls = get_new_ads_urls_for_url(target_url)
+            # print(ads_ids)
 
             try:
                 # Filter out the already processed ads
                 new_ads_urls, new_ids = get_new_ads_urls(ads_ids, target_url)
+                # print(new_ads_urls)
             except Exception as e:
                 # Messenger.send_telegram_message('', 'Failed')
                 continue
@@ -156,7 +158,7 @@ def main() -> None:
 
             old_id_masive[index].extend(new_ids)
             index = index + 1
-
+            # time.sleep(10)
 
 if __name__ == "__main__":
     main()
