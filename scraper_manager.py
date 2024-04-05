@@ -134,8 +134,9 @@ class OlxScraper:
             if ads is None:
                 return ads_links
             for ad in ads:
-                # міняти клас блллля хтось поміняв просто клас
-                link = ad.find("a", class_="css-q0eq4")
+                # міняти клас блллля хтось поміняв просто клас "a", class_="css-z3gu2d"
+                link = ad.find("a", class_="css-z3gu2d")
+                # print(ad)
 
                 if link is not None and link.has_attr("href"):
                     link_href = link["href"]
