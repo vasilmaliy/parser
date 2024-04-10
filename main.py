@@ -90,7 +90,7 @@ def main() -> None:
 
     target_urls = load_target_urls()
     # добавити масив при добвавленні нової силки
-    old_id_masive = [[], [], [], [], [], []]
+    old_id_masive = [[], [], [], [], []]
 
     kiev_timezone = pytz.timezone('Europe/Kiev')
 
