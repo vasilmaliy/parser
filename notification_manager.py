@@ -150,7 +150,7 @@ class Messenger():
             try:
                 response = requests.get(endpoint, params=params)
                 # send pavlo message
-                requests.get(endpoint, params=params_pavlo)
+                # requests.get(endpoint, params=params_pavlo)
                 # requests.get(endpoint, params=params_pavlo2)
 
                 response.raise_for_status()
