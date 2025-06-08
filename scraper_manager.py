@@ -77,7 +77,7 @@ class OlxScraper:
 
                 time_difference = (current_time_kiev.minute + current_time_kiev.hour * 60 ) - (event_time.minute + event_time.hour * 60 + 60)
                 # print(event_time)
-                if time_difference <= 30:
+                if 0 < time_difference <= 30:
                     print(event_time)
                     # print('heloo')
                     ads_list.append(ad)
