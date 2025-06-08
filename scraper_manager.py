@@ -122,6 +122,8 @@ class OlxScraper:
         """
         ads_links = []
         ads_id = []
+        ads_img = []
+        ads_info = []
 
         if self.netloc != urlparse(target_url).netloc:
             raise ValueError(
@@ -137,7 +139,22 @@ class OlxScraper:
             for ad in ads:
                 # міняти клас блллля хтось поміняв просто клас "a", class_="css-z3gu2d"
                 link = ad.find("a", class_="css-1tqlkj0")
-                # print(ad)
+                price = ad.find("p", class_="css-uj7mm0")
+                img_tag = ad.find("img", class_="css-8wsg1m")
+
+                if price:
+                    price_text = price.get_text(strip=True)
+                else:
+                    price_text = ''
+
+                if img_tag and img_tag.get('src'):
+                    img_link = img_tag['src']
+                    ad_info = img_tag['alt'] + ' \n ' + price_text
+                else:
+                    img_link = 'no photo'
+                    ad_info = 'no info'
+
+                # print(ad_info)
 
                 if link is not None and link.has_attr("href"):
                     link_href = link["href"]
@@ -148,14 +165,18 @@ class OlxScraper:
                     if self.is_relative_url(link_href):
                         link_href = f"{self.schema}://{self.netloc}{link_href}"
                     ads_links.append(link_href)
+                    # добавити посилання на фото в масив
+                    ads_img.append(img_link)
                     # добавити id оголошення
                     ads_id.append(ad.get('id'))
+                    ads_info.append(ad_info)
+
             if self.last_page is None or self.current_page >= self.last_page:
                 break
             self.current_page += 1
         #
         print(ads_links)
-        return ads_links, ads_id
+        return ads_links, ads_id, ads_img, ads_info
 
     def is_relevant_url(self, url: str) -> bool:
         """

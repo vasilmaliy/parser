@@ -96,7 +96,7 @@ class Messenger():
         logging.info("Email notification sent successfully")
 
     @staticmethod
-    def send_telegram_message(message_subject: str, message_body: str) -> None:
+    def send_telegram_message(message_subject: str, message_body: str, ad_img: str) -> None:
         """
         Send a message via Telegram. The service accepts messages up to
         4096 characters or less, so the notification will be divided into sections of
@@ -112,7 +112,7 @@ class Messenger():
         Raises:
             requests.exceptions.RequestException: In case an error is generated during the transmission.
         """
-        endpoint = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        endpoint = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
         max_length = 4000
         message_batches = []
         current_message = ""
@@ -132,14 +132,17 @@ class Messenger():
                 message_text = f"{message_subject}\n\n{message_batch}"
             else:
                 message_text = message_batch
+
             params = {
                 "chat_id": TELEGRAM_CHAT_ID,
                 "text": message_text
-            }
-            params_pavlo = {
-                "chat_id": "751066597",
-                "text": message_text
                 # "text": "пішов в дупу Павлик"
+            }
+
+            params_2 = {
+                "chat_id": TELEGRAM_CHAT_ID,
+                "photo": ad_img,
+                "caption": message_text
             }
 
             params_pavlo2 = {
@@ -148,7 +151,11 @@ class Messenger():
             }
 
             try:
-                response = requests.get(endpoint, params=params)
+                if ad_img.startswith('http://') or ad_img.startswith('https://'):
+                    response = requests.get(endpoint, params=params_2)
+                else:
+                    response = requests.get(endpoint, params=params)
+
                 # send pavlo message
                 # requests.get(endpoint, params=params_pavlo)
                 # requests.get(endpoint, params=params_pavlo2)

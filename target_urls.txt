@@ -1,5 +1,5 @@
 https://www.olx.ua/uk/elektronika/q-%D1%80%D1%83%D0%BB%D1%8C/?currency=UAH&search%5Border%5D=created_at:desc&search%5Bfilter_float_price:from%5D=200
 https://www.olx.ua/uk/elektronika/q-%D0%BA%D0%B5%D1%80%D0%BC%D0%BE/?currency=UAH&search%5Border%5D=created_at:desc&search%5Bfilter_float_price:from%5D=200
 https://www.olx.ua/uk/list/q-thrustmaster/?min_id=832823656&reason=observed_search&search%5Border%5D=created_at%3Adesc
-https://www.olx.ua/uk/elektronika/tehnika-dlya-doma/pylesosy/q-zelmer/?min_id=842175852&reason=observed_search&search%5Bfilter_float_price%3Afrom%5D=1500&search%5Border%5D=created_at%3Adesc
+https://www.olx.ua/uk/elektronika/tehnika-dlya-doma/pylesosy/q-zelmer/?currency=UAH&search%5Border%5D=created_at:desc&search%5Bfilter_float_price:from%5D=900
 https://www.olx.ua/uk/elektronika/tehnika-dlya-doma/pylesosy/q-bosch/?min_id=842225554&reason=observed_search&search%5Border%5D=created_at%3Adesc

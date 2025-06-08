@@ -49,18 +49,23 @@ def get_new_ads_urls(all_ids: list, target_url: str) -> list:
     Returns:
         new_urls (list): List of URLs not found in the database.
     """
-    new_urls, new_ids = get_new_ads_urls_for_url(target_url)
+    new_urls, new_ids, ads_img, ads_info = get_new_ads_urls_for_url(target_url)
 
     new_urls_list = []
     new_id_list = []
+    new_img_list = []
+    new_ads_info = []
 
     if new_urls:
-        for id, url in zip(new_ids, new_urls):
+        for id, url, img, info in zip(new_ids, new_urls, ads_img, ads_info):
             if not id in all_ids:
                 new_urls_list.append(url)
                 new_id_list.append(id)
+                new_img_list.append(img)
+                new_ads_info.append(info)
 
-    return new_urls_list, new_id_list
+
+    return new_urls_list, new_id_list, new_img_list, new_ads_info
 
 
 def get_new_ads_urls_for_url(target_url: str) -> list:
@@ -75,11 +80,13 @@ def get_new_ads_urls_for_url(target_url: str) -> list:
     """
 
     try:
-        ads_urls, new_ids = scraper.scrape_ads_urls(target_url)
+        ads_urls, new_ids, ads_img, ads_info = scraper.scrape_ads_urls(target_url)
     except ValueError as error:
         logging.error(error)
         return []
-    return list(ads_urls), new_ids
+    return list(ads_urls), new_ids, ads_img, ads_info
+
+
 
 
 def main() -> None:
@@ -91,6 +98,9 @@ def main() -> None:
     target_urls = load_target_urls()
     # добавити масив при добвавленні нової силки
     old_id_masive = [[], [], [], [], []]
+
+    # загальний масив всіх телефонів щоб не повтроювались в пару масивах пошуку
+    all_ids = []
 
     kiev_timezone = pytz.timezone('Europe/Kiev')
 
@@ -106,24 +116,26 @@ def main() -> None:
         # Отримуємо поточний час за київським часом
         current_time = datetime.now(kiev_timezone)
 
-        if current_time.hour == 8 and time_reset_1:
-            time_reset_1 = False
-            time_reset_2 = True
+        # if current_time.hour == 8 and time_reset_1:
+        #     time_reset_1 = False
+        #     time_reset_2 = True
+        #
+        #     old_id_masive = [[], [], [], [], [], [], [], [], [], []]
+        #
+        # # Перевіряємо, чи поточний час дорівнює 17:00 або 8:00
+        # if current_time.hour == 17 and time_reset_2:
+        #     time_reset_2 = False
+        #     time_reset_1 = True
+        #     time_reset_3 = True
+        #     old_id_masive = [[], [], [], [], [], [], [], [], [], []]
 
-            old_id_masive = [[], [], [], [], []]
-
-        # Перевіряємо, чи поточний час дорівнює 17:00 або 8:00
-        if current_time.hour == 17 and time_reset_2:
-            time_reset_2 = False
-            time_reset_1 = True
-            time_reset_3 = True
-            old_id_masive = [[], [], [], [], []]
-
-        if current_time.hour == 0 and time_reset_3:
-            time_reset_3 = False
-            time.sleep(1800)
+        # if current_time.hour == 0 and time_reset_3:
+        #     time_reset_3 = False
+        #     time.sleep(1800)
 
         if current_time.hour >= 2 and current_time.hour <= 7:
+            old_id_masive = [[], [], [], [], []]
+            all_ids = []
             continue
 
         for target_url, ads_ids in zip(target_urls, old_id_masive):
@@ -132,14 +144,19 @@ def main() -> None:
 
             try:
                 # Filter out the already processed ads
-                new_ads_urls, new_ids = get_new_ads_urls(ads_ids, target_url)
+                # new_ads_urls, new_ids = get_new_ads_urls(ads_ids, target_url)
+
+                #перевірка з загалним масивом
+                new_ads_urls, new_ids, new_img, new_info = get_new_ads_urls(all_ids, target_url)
                 # print(new_ads_urls)
             except Exception as e:
                 # Messenger.send_telegram_message('', 'Failed')
                 continue
 
             print(f"old {index} {ads_ids}")
+            print(f"all new links {all_ids}")
             print(f"new {index} {new_ads_urls}")
+            print(new_info)
             # print(f"new {index} {new_ids}")
 
             # Process ads in parallel, for increased speed
@@ -148,15 +165,17 @@ def main() -> None:
             # new_ads = list(filter(None, new_ads))
 
             if new_ads_urls:
-                for ad in new_ads_urls:
-                    message_subject, message_body = Messenger.generate_email_content(
-                        target_url, [ad])
+                for ad, ad_img, ad_info in zip(new_ads_urls, new_img, new_info):
+                    # message_subject, message_body = Messenger.generate_email_content(
+                    #     target_url, [ad])
                     #     Messenger.send_email_message(message_subject, message_body)
-                    Messenger.send_telegram_message('', message_body)
+                    message_body = ad + " \n\n" + ad_info
+                    Messenger.send_telegram_message('', message_body, ad_img )
 
             # Add the processed ads to database
 
             old_id_masive[index].extend(new_ids)
+            all_ids.extend(new_ids)
             index = index + 1
             # time.sleep(10)
 
