@@ -53,7 +53,9 @@ class OlxScraper:
         if parsed_content is None:
             return None
         #поміняти на клас який є елементом оголошення
-        ads = parsed_content.select("div.css-l9drzq:not([data-testid=\"adCard-featured\"])")
+        # ads = parsed_content.select("div.css-l9drzq:not([data-testid=\"adCard-featured\"])")
+        ads = parsed_content.select("div.css-1g5933j:not([data-testid=\"adCard-featured\"])")
+
         ads_list = []
 
         for ad in ads:
