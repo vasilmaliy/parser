@@ -142,7 +142,7 @@ class OlxScraper:
             for ad in ads:
                 # міняти клас блллля хтось поміняв просто клас "a", class_="css-z3gu2d"
                 link = ad.find("a", class_="css-1tqlkj0")
-                price = ad.find("p", class_="css-uj7mm0")
+                price = ad.find("p", class_="css-blr5zl")
                 img_tag = ad.find("img", class_="css-8wsg1m")
 
                 if price:
